@@ -1,6 +1,7 @@
 package com.example.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
 import android.os.Bundle;
@@ -20,6 +21,21 @@ public class MainActivity extends AppCompatActivity implements ListFrag.ItemSele
         setContentView(R.layout.activity_main);
 
         tvDescription = findViewById(R.id.tvDescription);
+        if(findViewById(R.id.layout_portrait)!=null){
+            FragmentManager manager = this.getSupportFragmentManager();
+            manager.beginTransaction()
+                    .hide(manager.findFragmentById(R.id.detailFrag))
+                    .show(manager.findFragmentById(R.id.listFrag))
+                    .commit();
+
+        }
+        if(findViewById(R.id.layout_land)!=null){
+            FragmentManager manager = this.getSupportFragmentManager();
+            manager.beginTransaction()
+                    .show(manager.findFragmentById(R.id.listFrag))
+                    .show(manager.findFragmentById(R.id.detailFrag))
+                    .commit();
+        }
 
         description = new ArrayList<String>();
         description.add("Item 1");
@@ -31,6 +47,16 @@ public class MainActivity extends AppCompatActivity implements ListFrag.ItemSele
     @Override
     public void onItemSelected(int index) {
         tvDescription.setText(description.get(index));
+
+        if(findViewById(R.id.layout_portrait)!=null){
+            FragmentManager manager = this.getSupportFragmentManager();
+            manager.beginTransaction()
+                    .show(manager.findFragmentById(R.id.detailFrag))
+                    .hide(manager.findFragmentById(R.id.listFrag))
+                    .addToBackStack(null)
+                    .commit();
+
+        }
     }
 
     @Override
